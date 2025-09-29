@@ -4041,6 +4041,11 @@ extra_lives_dict = {
         LocData(0x08750435, "Cass' Crest"),
 }
 
+misc_items_dict = {
+    "LLPoF - Frosty Furnace":
+        LocData(0x08750500, "Lyre, Lyre Pants on Fire")
+}
+
 conditional_items_dict = {
     "Attribute - Extra Health":
         LocData(0x08750313, "Rainbow Cliffs"),
@@ -4062,5 +4067,6 @@ ty1_location_table = {
     **extra_lives_dict,
     **time_attack_challenge_dict,
     **opals_dict,
+    **misc_items_dict,
     **conditional_items_dict
 }

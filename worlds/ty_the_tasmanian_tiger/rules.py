@@ -551,6 +551,9 @@ def get_rules(world):
             "Cass' Crest - Extra Life 5":
                 lambda state:
                     has_rang(world, state, Ty1Rang.SECOND_RANG) or world.options.logic_difficulty == 2,
+            "LLPoF - Frosty Furnace":
+                lambda state:
+                    has_rang(world, state, Ty1Rang.FLAMERANG),
             "Beat Bull":
                 lambda state:
                     state.can_reach_location("Frog Talisman", world.player),

@@ -554,6 +554,12 @@ def get_rules(world):
             "LLPoF - Frosty Furnace":
                 lambda state:
                     has_rang(world, state, Ty1Rang.FLAMERANG),
+            "BotRT - Leave a Message":
+                lambda state:
+                    state.can_reach_location("BotRT - Home, Sweet, Home"),
+            "WitP - Hot Dingo":
+                lambda state:
+                    has_rang(world, state, Ty1Rang.FLAMERANG),
             "Beat Bull":
                 lambda state:
                     state.can_reach_location("Frog Talisman", world.player),

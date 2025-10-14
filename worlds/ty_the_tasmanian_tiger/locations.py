@@ -4043,7 +4043,11 @@ extra_lives_dict = {
 
 misc_items_dict = {
     "LLPoF - Frosty Furnace":
-        LocData(0x08750500, "Lyre, Lyre Pants on Fire")
+        LocData(0x08750500, "Lyre, Lyre Pants on Fire"),
+    "BotRT - Leave a Message":
+        LocData(0x08750501, "Bridge on the River Ty - Beyond Broken Bridge"),
+    "WitP - Hot Dingo":
+        LocData(0x08750502, "Walk in the Park")
 }
 
 conditional_items_dict = {

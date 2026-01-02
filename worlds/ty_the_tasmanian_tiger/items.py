@@ -27,150 +27,152 @@ def get_trap_item_names(world, rand, k: int) -> str:
     return traps
 
 
-def create_single(name: str, world: MultiWorld, player: int, item_class: ItemClassification = None) -> None:
+def create_single(name: str, world, item_class: ItemClassification = None) -> None:
     classification = ty1_item_table[name].classification if item_class is None else item_class
-    world.worlds[player].itempool.append(Ty1Item(name, classification, ty1_item_table[name].code, player))
+    world.itempool.append(Ty1Item(name, classification, ty1_item_table[name].code, world.player))
 
 
-def create_multiple(name: str, amount: int, world: MultiWorld, player: int, item_class: ItemClassification = None):
+def create_multiple(name: str, amount: int, world, item_class: ItemClassification = None):
     for i in range(amount):
-        create_single(name, world, player, item_class)
+        create_single(name, world, item_class)
 
 
-def create_items(world: MultiWorld, options: Ty1Options, player: int):
-    total_location_count: int = len(world.get_unfilled_locations(player))
+def create_items(world):
+    player = world.player
+    options = world.options
+    total_location_count: int = len(world.multiworld.get_unfilled_locations(player))
 
     # Generic
     create_multiple("Fire Thunder Egg",
-                    options.thegg_gating.value - 3, world, player, ItemClassification.progression_skip_balancing)
+                    options.thegg_gating.value - 3, world, ItemClassification.progression_skip_balancing)
     create_multiple("Fire Thunder Egg",
-                    options.extra_theggs.value, world, player, ItemClassification.filler)
+                    options.extra_theggs.value, world, ItemClassification.filler)
     create_multiple("Ice Thunder Egg",
-                    options.thegg_gating.value - 3, world, player, ItemClassification.progression_skip_balancing)
+                    options.thegg_gating.value - 3, world, ItemClassification.progression_skip_balancing)
     create_multiple("Ice Thunder Egg",
-                    options.extra_theggs.value, world, player, ItemClassification.filler)
+                    options.extra_theggs.value, world, ItemClassification.filler)
     create_multiple("Air Thunder Egg",
-                    options.thegg_gating.value - 3, world, player, ItemClassification.progression_skip_balancing)
+                    options.thegg_gating.value - 3, world, ItemClassification.progression_skip_balancing)
     create_multiple("Air Thunder Egg",
-                    options.extra_theggs.value, world, player, ItemClassification.filler)
+                    options.extra_theggs.value, world, ItemClassification.filler)
     create_multiple("Golden Cog",
-                    options.cog_gating.value * 6, world, player, ItemClassification.progression_skip_balancing)
+                    options.cog_gating.value * 6, world, ItemClassification.progression_skip_balancing)
     create_multiple("Golden Cog",
-                    options.extra_cogs.value, world, player, ItemClassification.filler)
+                    options.extra_cogs.value, world, ItemClassification.filler)
 
     # Bilbies
-    create_multiple("Bilby - Two Up", 5, world, player)
-    create_multiple("Bilby - Walk in the Park", 5, world, player)
-    create_multiple("Bilby - Ship Rex", 5, world, player)
-    create_multiple("Bilby - Bridge on the River Ty", 5, world, player)
-    create_multiple("Bilby - Snow Worries", 5, world, player)
-    create_multiple("Bilby - Outback Safari", 5, world, player)
-    create_multiple("Bilby - Lyre, Lyre Pants on Fire", 5, world, player)
-    create_multiple("Bilby - Beyond the Black Stump", 5, world, player)
-    create_multiple("Bilby - Rex Marks the Spot", 5, world, player)
+    create_multiple("Bilby - Two Up", 5, world)
+    create_multiple("Bilby - Walk in the Park", 5, world)
+    create_multiple("Bilby - Ship Rex", 5, world)
+    create_multiple("Bilby - Bridge on the River Ty", 5, world)
+    create_multiple("Bilby - Snow Worries", 5, world)
+    create_multiple("Bilby - Outback Safari", 5, world)
+    create_multiple("Bilby - Lyre, Lyre Pants on Fire", 5, world)
+    create_multiple("Bilby - Beyond the Black Stump", 5, world)
+    create_multiple("Bilby - Rex Marks the Spot", 5, world)
 
     # Stopwatches
     if options.gate_time_attacks:
-        create_single("Stopwatch - Two Up", world, player)
-        create_single("Stopwatch - Walk in the Park", world, player)
-        create_single("Stopwatch - Ship Rex", world, player)
-        create_single("Stopwatch - Bridge on the River Ty", world, player)
-        create_single("Stopwatch - Snow Worries", world, player)
-        create_single("Stopwatch - Outback Safari", world, player)
-        create_single("Stopwatch - Lyre, Lyre Pants on Fire", world, player)
-        create_single("Stopwatch - Beyond the Black Stump", world, player)
-        create_single("Stopwatch - Rex Marks the Spot", world, player)
+        create_single("Stopwatch - Two Up", world)
+        create_single("Stopwatch - Walk in the Park", world)
+        create_single("Stopwatch - Ship Rex", world)
+        create_single("Stopwatch - Bridge on the River Ty", world)
+        create_single("Stopwatch - Snow Worries", world)
+        create_single("Stopwatch - Outback Safari", world)
+        create_single("Stopwatch - Lyre, Lyre Pants on Fire", world)
+        create_single("Stopwatch - Beyond the Black Stump", world)
+        create_single("Stopwatch - Rex Marks the Spot", world)
 
     # Attributes
     if options.progressive_elementals:
-        create_multiple("Progressive Rang", 8, world, player)
+        create_multiple("Progressive Rang", 8, world)
     else:
-        create_single("Second Rang", world, player)
+        create_single("Second Rang", world)
         world.early_items[player]["Second Rang"] = 1
-        create_single("Swim", world, player)
-        create_single("Aquarang", world, player)
-        create_single("Dive", world, player)
-        create_single("Flamerang", world, player)
-        create_single("Frostyrang", world, player)
-        create_single("Zappyrang", world, player)
-        create_single("Doomerang", world, player)
+        create_single("Swim", world)
+        create_single("Aquarang", world)
+        create_single("Dive", world)
+        create_single("Flamerang", world)
+        create_single("Frostyrang", world)
+        create_single("Zappyrang", world)
+        create_single("Doomerang", world)
     if options.scalesanity:
-        create_single("Extra Health", world, player)
-    create_single("Zoomerang", world, player)
-    create_single("Multirang", world, player)
-    create_single("Infrarang", world, player,
-                  ItemClassification.progression if options.frames_require_infra else ItemClassification.useful)
-    create_single("Megarang", world, player)
-    create_single("Kaboomarang", world, player)
-    create_single("Chronorang", world, player)
+        create_single("Extra Health", world)
+    create_single("Zoomerang", world)
+    create_single("Multirang", world)
+    create_single("Infrarang", world, ItemClassification.progression if options.frames_require_infra else ItemClassification.useful)
+    create_single("Megarang", world)
+    create_single("Kaboomarang", world)
+    create_single("Chronorang", world)
 
-    create_single("Frog Talisman", world, player)
-    create_single("Platypus Talisman", world, player)
-    create_single("Cockatoo Talisman", world, player)
-    create_single("Dingo Talisman", world, player)
-    create_single("Tiger Talisman", world, player)
+    create_single("Frog Talisman", world)
+    create_single("Platypus Talisman", world)
+    create_single("Cockatoo Talisman", world)
+    create_single("Dingo Talisman", world)
+    create_single("Tiger Talisman", world)
 
     # Levels
     if options.level_unlock_style != 0:
         if options.progressive_level:
             level_count = 12 if options.level_unlock_style == 1 else 9
-            create_multiple("Progressive Level", level_count, world, player)
+            create_multiple("Progressive Level", level_count, world)
         else:
-            for levelIndex, portal_value in enumerate(world.worlds[player].portal_map):
+            for levelIndex, portal_value in enumerate(world.portal_map):
                 if levelIndex == 0:
                     continue
                 portal_name = f"Portal - {ty1_levels[Ty1LevelCode(portal_value)]}"
-                create_single(portal_name, world, player)
-            create_single("Portal - Cass' Pass", world, player)
+                create_single(portal_name, world)
+            create_single("Portal - Cass' Pass", world)
             if options.level_unlock_style == 1:
-                create_single("Portal - Bull's Pen", world, player)
-                create_single("Portal - Crikey's Cove", world, player)
-                create_single("Portal - Fluffy's Fjord", world, player)
+                create_single("Portal - Bull's Pen", world)
+                create_single("Portal - Crikey's Cove", world)
+                create_single("Portal - Fluffy's Fjord", world)
 
     if options.opalsanity:
         junk_weights["Picture Frame"] += junk_weights["Opal Magnet"]
         junk_weights["Opal Magnet"] = 0
 
     # Junk
-    remaining_locations: int = total_location_count - len(world.worlds[player].itempool)
+    remaining_locations: int = total_location_count - len(world.itempool)
     trap_count: int = round(remaining_locations * options.trap_fill_percentage / 100)
     junk_count: int = remaining_locations - trap_count
     junk = get_junk_item_names(world.random, junk_count)
     for name in junk:
-        create_single(name, world, player)
-    traps = get_trap_item_names(world.worlds[player], world.random, trap_count)
+        create_single(name, world)
+    traps = get_trap_item_names(world, world.random, trap_count)
     for name in traps:
-        create_single(name, world, player)
-    world.itempool += world.worlds[player].itempool
+        create_single(name, world)
+    world.multiworld.itempool += world.itempool
 
 
-def place_locked_items(world: MultiWorld, player: int):
+def place_locked_items(world):
+    player = world.player
     classification = ItemClassification.progression_skip_balancing
-    a1_bilby_loc: Location = world.get_location("Two Up - Bilby Completion", player)
+    a1_bilby_loc: Location = world.multiworld.get_location("Two Up - Bilby Completion", player)
     a1_bilby_thegg: Ty1Item = Ty1Item("Fire Thunder Egg", classification, 0x8750000, player)
     a1_bilby_loc.place_locked_item(a1_bilby_thegg)
-    a2_bilby_loc: Location = world.get_location("WitP - Bilby Completion", player)
+    a2_bilby_loc: Location = world.multiworld.get_location("WitP - Bilby Completion", player)
     a2_bilby_thegg: Ty1Item = Ty1Item("Fire Thunder Egg", classification, 0x8750000, player)
     a2_bilby_loc.place_locked_item(a2_bilby_thegg)
-    a3_bilby_loc: Location = world.get_location("Ship Rex - Bilby Completion", player)
+    a3_bilby_loc: Location = world.multiworld.get_location("Ship Rex - Bilby Completion", player)
     a3_bilby_thegg: Ty1Item = Ty1Item("Fire Thunder Egg", classification, 0x8750000, player)
     a3_bilby_loc.place_locked_item(a3_bilby_thegg)
-    b1_bilby_loc: Location = world.get_location("BotRT - Bilby Completion", player)
+    b1_bilby_loc: Location = world.multiworld.get_location("BotRT - Bilby Completion", player)
     b1_bilby_thegg: Ty1Item = Ty1Item("Ice Thunder Egg", classification, 0x8750001, player)
     b1_bilby_loc.place_locked_item(b1_bilby_thegg)
-    b2_bilby_loc: Location = world.get_location("Snow Worries - Bilby Completion", player)
+    b2_bilby_loc: Location = world.multiworld.get_location("Snow Worries - Bilby Completion", player)
     b2_bilby_thegg: Ty1Item = Ty1Item("Ice Thunder Egg", classification, 0x8750001, player)
     b2_bilby_loc.place_locked_item(b2_bilby_thegg)
-    b3_bilby_loc: Location = world.get_location("Outback Safari - Bilby Completion", player)
+    b3_bilby_loc: Location = world.multiworld.get_location("Outback Safari - Bilby Completion", player)
     b3_bilby_thegg: Ty1Item = Ty1Item("Ice Thunder Egg", classification, 0x8750001, player)
     b3_bilby_loc.place_locked_item(b3_bilby_thegg)
-    c1_bilby_loc: Location = world.get_location("LLPoF - Bilby Completion", player)
+    c1_bilby_loc: Location = world.multiworld.get_location("LLPoF - Bilby Completion", player)
     c1_bilby_thegg: Ty1Item = Ty1Item("Air Thunder Egg", classification, 0x8750002, player)
     c1_bilby_loc.place_locked_item(c1_bilby_thegg)
-    c2_bilby_loc: Location = world.get_location("BtBS - Bilby Completion", player)
+    c2_bilby_loc: Location = world.multiworld.get_location("BtBS - Bilby Completion", player)
     c2_bilby_thegg: Ty1Item = Ty1Item("Air Thunder Egg", classification, 0x8750002, player)
     c2_bilby_loc.place_locked_item(c2_bilby_thegg)
-    c3_bilby_loc: Location = world.get_location("RMtS - Bilby Completion", player)
+    c3_bilby_loc: Location = world.multiworld.get_location("RMtS - Bilby Completion", player)
     c3_bilby_thegg: Ty1Item = Ty1Item("Air Thunder Egg", classification, 0x8750002, player)
     c3_bilby_loc.place_locked_item(c3_bilby_thegg)
 

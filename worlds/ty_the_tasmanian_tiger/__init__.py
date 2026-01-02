@@ -4,7 +4,7 @@ from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification, Region, 
 from Options import OptionError, PerGameCommonOptions
 from worlds.AutoWorld import WebWorld, World
 
-from .items import Ty1Item, ty1_item_table, create_items, ItemData, place_locked_items
+from .items import *
 from .locations import ty1_location_table, Ty1Location
 from .options import Ty1Options, ty1_option_groups
 from .regions import create_regions, connect_regions, ty1_levels, Ty1LevelCode, connect_all_regions, ty1_core_levels, \
@@ -85,7 +85,6 @@ class Ty1World(World):
     def generate_early(self) -> None:
         # UT Stuff Here
         self.handle_ut_yamless(None)
-
         extra_thegg_count = self.options.extra_theggs * 3
         extra_cog_count = self.options.extra_cogs
         empty_cog_checks = 90 - (self.options.cog_gating * 6)
@@ -129,13 +128,15 @@ class Ty1World(World):
             "Acid Trap": self.options.acid_trap_weight.value,
             "Exit Trap": self.options.exit_trap_weight.value,
         }
+        if self.options.opalsanity:
+            self.options.local_items.value.add("Picture Frame")
 
     def create_item(self, name: str) -> Item:
         item_info = ty1_item_table[name]
         return Ty1Item(name, item_info.classification, item_info.code, self.player)
 
     def create_items(self):
-        create_items(self.multiworld, self.options, self.player)
+        create_items(self)
 
     def create_event(self, region_name: str, event_name: str) -> None:
         region: Region = self.multiworld.get_region(region_name, self.player)
@@ -144,14 +145,14 @@ class Ty1World(World):
         region.locations.append(loc)
 
     def create_regions(self):
-        create_regions(self.multiworld, self.options, self.player)
-        place_locked_items(self.multiworld, self.player)
+        create_regions(self)
+        place_locked_items(self)
         self.create_event("Bull's Pen", "Beat Bull")
         self.create_event("Crikey's Cove", "Beat Crikey")
         self.create_event("Fluffy's Fjord", "Beat Fluffy")
         self.create_event("Cass' Crest", "Beat Shadow")
         self.create_event("Final Battle", "Beat Cass")
-        connect_all_regions(self.multiworld, self.player, self.options, self.portal_map)
+        connect_all_regions(self, self.portal_map)
 
     def set_rules(self):
         set_rules(self)

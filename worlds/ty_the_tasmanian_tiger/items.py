@@ -88,7 +88,7 @@ def create_items(world):
         create_multiple("Progressive Rang", 8, world)
     else:
         create_single("Second Rang", world)
-        world.early_items[player]["Second Rang"] = 1
+        world.multiworld.early_items[player]["Second Rang"] = 1
         create_single("Swim", world)
         create_single("Aquarang", world)
         create_single("Dive", world)

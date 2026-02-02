@@ -5,10 +5,10 @@ from Options import OptionError, PerGameCommonOptions
 from worlds.AutoWorld import WebWorld, World
 
 from .items import *
-from .locations import ty1_location_table, Ty1Location
+from .data import *
+from .locations import ty1_location_table, Ty1Location, ty1_location_name_groups
 from .options import Ty1Options, ty1_option_groups
-from .regions import create_regions, connect_regions, ty1_levels, Ty1LevelCode, connect_all_regions, ty1_core_levels, \
-    ty1_levels_short
+from .regions import create_regions, connect_regions, connect_all_regions
 from .rules import set_rules
 
 
@@ -43,6 +43,8 @@ class Ty1World(World):
     portal_map: List[int] = [Ty1LevelCode.A1.value, Ty1LevelCode.A2.value, Ty1LevelCode.A3.value,
                                     Ty1LevelCode.B1.value, Ty1LevelCode.B2.value, Ty1LevelCode.B3.value,
                                     Ty1LevelCode.C1.value, Ty1LevelCode.C2.value, Ty1LevelCode.C3.value]
+    item_name_groups = ty1_item_name_groups
+    location_name_groups = ty1_location_name_groups
     trap_weights = {}
 
     web = Ty1Web()
@@ -189,6 +191,9 @@ class Ty1World(World):
             new_hint_data[location.address] = f"{portal_name} Portal"
             hint_data[self.player] = new_hint_data
 
+    def get_filler_item_name(self) -> str:
+        return get_junk_item_names(self.random, 1)[0]
+
     def handle_ut_yamless(self, slot_data: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
 
         if not slot_data \
@@ -219,7 +224,7 @@ class Ty1World(World):
         self.options.logic_difficulty.value = slot_data["AdvancedLogic"]
         self.options.death_link.value = slot_data["DeathLink"]
         self.options.mul_ty_link.value = slot_data["MulTyLink"]
-        self.options.extra_theggs.value = slot_data[ "ExtraTheggs"]
-        self.options.extra_cogs.value = slot_data[ "ExtraCog"]
+        self.options.extra_theggs.value = slot_data["ExtraTheggs"]
+        self.options.extra_cogs.value = slot_data["ExtraCog"]
 
         return slot_data

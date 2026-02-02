@@ -3,7 +3,7 @@ from typing import Dict, Optional
 
 
 from BaseClasses import Item, ItemClassification, MultiWorld, Location
-from worlds.ty_the_tasmanian_tiger.regions import ty1_levels, Ty1LevelCode
+from .data import *
 from worlds.ty_the_tasmanian_tiger.options import Ty1Options
 
 
@@ -265,6 +265,44 @@ ty1_item_table: Dict[str, ItemData] = {
     "Gravity Trap": ItemData(0x8750092, ItemClassification.trap),
     "Acid Trap": ItemData(0x8750093, ItemClassification.trap),
     "Exit Trap": ItemData(0x8750094, ItemClassification.trap),
+}
+
+
+ty1_item_name_groups = {
+    "Level": {
+        "Progressive Level",
+        "Portal - Two Up",
+        "Portal - Walk in the Park",
+        "Portal - Ship Rex",
+        "Portal - Bull's Pen",
+        "Portal - Bridge on the River Ty",
+        "Portal - Snow Worries",
+        "Portal - Outback Safari",
+        "Portal - Crikey's Cove",
+        "Portal - Lyre, Lyre Pants on Fire",
+        "Portal - Beyond the Black Stump",
+        "Portal - Rex Marks the Spot",
+        "Portal - Fluffy's Fjord",
+        "Portal - Cass' Pass"
+    },
+    "Rang": {
+        "Progressive Rang",
+        "Boomerang",
+        "Second Rang",
+        "Flamerang",
+        "Frostyrang",
+        "Zappyrang",
+        "Aquarang",
+        "Zoomerang",
+        "Multirang",
+        "Infrarang",
+        "Megarang",
+        "Kaboomarang",
+        "Chronorang",
+        "Doomerang",
+        "Swim",
+        "Dive",
+    },
 }
 
 

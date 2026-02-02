@@ -1,0 +1,20 @@
+name: Fuzz apworld
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main, ci]
+
+jobs:
+  fuzz:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Eijebong/ap-actions/fuzz@main
+        with:
+          apworld-path: worlds/ty_the_tasmanian_tiger
+          ap-version: '0.6.5'
+          python-version: '3.12'
+          runs: 1000
+          yamls-per-run: 2
+          meta: fuzz_meta.yaml
+          dump-ignored: false

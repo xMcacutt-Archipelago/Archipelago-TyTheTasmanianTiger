@@ -16,5 +16,5 @@ jobs:
           python-version: '3.12'
           runs: 1000
           yamls-per-run: 2
-          meta: '${{github.workspace}}/fuzz_meta.yaml'
+          # meta: '${{github.workspace}}/fuzz_meta.yaml'
           dump-ignored: false

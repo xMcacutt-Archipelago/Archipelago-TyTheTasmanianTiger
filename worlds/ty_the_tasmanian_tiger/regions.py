@@ -75,6 +75,8 @@ def create_regions(world):
 def connect_all_regions(world, portal_map: List[int]):
     if world.options.level_shuffle and not hasattr(world, "re_gen_passthrough"):
         world.random.shuffle(portal_map)
+    for i in portal_map:
+        print(i)
     connect_regions(world, "Menu",
                     "Rainbow Cliffs", "Menu -> Z1")
     connect_regions(world, "Rainbow Cliffs",
@@ -101,24 +103,21 @@ def connect_all_regions(world, portal_map: List[int]):
                              ty1_levels[Ty1LevelCode(portal_map[1])], "A2 Portal")
     ent_a3 = connect_regions(world, "Bli Bli Station Gate",
                              ty1_levels[Ty1LevelCode(portal_map[2])], "A3 Portal")
-    connect_regions(world, "Bli Bli Station Gate",
-                    ty1_levels[Ty1LevelCode.A4], "A4 Portal")
+    connect_regions(world, "Bli Bli Station Gate", ty1_levels[Ty1LevelCode.A4], "A4 Portal")
     ent_b1 = connect_regions(world, "Pippy Beach",
                              ty1_levels[Ty1LevelCode(portal_map[3])], "B1 Portal")
     ent_b2 = connect_regions(world, "Pippy Beach",
                              ty1_levels[Ty1LevelCode(portal_map[4])], "B2 Portal")
     ent_b3 = connect_regions(world, "Pippy Beach",
                              ty1_levels[Ty1LevelCode(portal_map[5])], "B3 Portal")
-    connect_regions(world, "Pippy Beach",
-                    ty1_levels[Ty1LevelCode.D4], "D4 Portal")
+    connect_regions(world, "Pippy Beach", ty1_levels[Ty1LevelCode.D4], "D4 Portal")
     ent_c1 = connect_regions(world, "Lake Burril",
                              ty1_levels[Ty1LevelCode(portal_map[6])], "C1 Portal")
     ent_c2 = connect_regions(world, "Lake Burril",
                              ty1_levels[Ty1LevelCode(portal_map[7])], "C2 Portal")
     ent_c3 = connect_regions(world, "Lake Burril",
                              ty1_levels[Ty1LevelCode(portal_map[8])], "C3 Portal")
-    connect_regions(world, "Lake Burril",
-                    ty1_levels[Ty1LevelCode.C4], "C4 Portal")
+    connect_regions(world, "Lake Burril", ty1_levels[Ty1LevelCode.C4], "C4 Portal")
     connect_regions(world, "Final Gauntlet",
                     "Cass' Pass", "E1 Portal")
     connect_regions(world, "Cass' Pass",

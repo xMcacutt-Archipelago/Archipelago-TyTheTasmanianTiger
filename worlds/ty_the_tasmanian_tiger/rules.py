@@ -2,6 +2,7 @@ import enum
 from typing import Dict
 
 from BaseClasses import CollectionState
+from worlds.ty_the_tasmanian_tiger.options import LevelUnlockStyle
 from worlds.ty_the_tasmanian_tiger.regions import Ty1LevelCode, ty1_levels, ty1_levels_short
 
 
@@ -52,10 +53,6 @@ def has_stopwatch(world, state: CollectionState, level: Ty1LevelCode):
     return state.has(f"Stopwatch - {ty1_levels[level]}", world.player)
 
 
-def has_all_bilbies(world, state: CollectionState, level: Ty1LevelCode):
-    return state.has(f"Bilby - {ty1_levels[level]}", world.player, 5)
-
-
 def can_reach_bilbies(world, state: CollectionState, level: Ty1LevelCode):
     return (state.can_reach_location(f"{ty1_levels_short[level]} - Bilby Dad", world.player) and
             state.can_reach_location(f"{ty1_levels_short[level]} - Bilby Mum", world.player) and
@@ -64,25 +61,17 @@ def can_reach_bilbies(world, state: CollectionState, level: Ty1LevelCode):
             state.can_reach_location(f"{ty1_levels_short[level]} - Bilby Grandma", world.player))
 
 
-def can_reach_cogs(world, state: CollectionState, level: Ty1LevelCode):
-    result = True
-    for i in range(10):
-        if not state.can_reach_location(f"{ty1_levels_short[level]} - Golden Cog {str(i + 1)}", world.player):
-            result = False
-    return result
-
-
 def has_level(world, state: CollectionState, level_index: int):
-    if world.options.level_unlock_style == 0:
+    if world.options.level_unlock_style == LevelUnlockStyle.option_vanilla:
         return True
-    if world.options.level_unlock_style == 2:
+    if world.options.level_unlock_style == LevelUnlockStyle.option_checks_no_bosses:
         if level_index == 9:
             return (state.has("Progressive Level", world.player, 9)
                     or state.has("Portal - Cass' Pass", world.player))
         portal_name = f"Portal - {ty1_levels[Ty1LevelCode(world.portal_map[level_index])]}"
         return (state.has("Progressive Level", world.player, level_index)
                 or state.has(portal_name, world.player))
-    if world.options.level_unlock_style == 1:
+    if world.options.level_unlock_style == LevelUnlockStyle.option_checks:
         if level_index == 9:
             return (state.has("Progressive Level", world.player, 12)
                     or state.has("Portal - Cass' Pass", world.player))
@@ -176,7 +165,7 @@ def get_rules(world):
                     has_rang(world, state, Ty1Rang.SECOND_RANG) or world.options.logic_difficulty != 0,
             "Snow Worries - Find 5 Bilbies":
                 lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.B2),
+                    can_reach_bilbies(world, state, Ty1LevelCode.B2),
             "Snow Worries - Time Attack":
                 lambda state:
                     has_stopwatch(world, state, Ty1LevelCode.B2) if world.options.gate_time_attacks
@@ -186,14 +175,14 @@ def get_rules(world):
                     has_rang(world, state, Ty1Rang.AQUARANG),
             "Outback Safari - Find 5 Bilbies":
                 lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.B3),
+                    can_reach_bilbies(world, state, Ty1LevelCode.B3),
             "Outback Safari - Race Shazza":
                 lambda state:
                     has_stopwatch(world, state, Ty1LevelCode.B3) if world.options.gate_time_attacks
                     else state.can_reach_location("Outback Safari - Emu Roundup", world.player),
             "LLPoF - Find 5 Bilbies":
                 lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.C1),
+                    can_reach_bilbies(world, state, Ty1LevelCode.C1),
             "LLPoF - Time Attack":
                 lambda state:
                     has_stopwatch(world, state, Ty1LevelCode.C1) if world.options.gate_time_attacks
@@ -222,7 +211,7 @@ def get_rules(world):
                     or world.options.logic_difficulty != 0,
             "RMtS - Find 5 Bilbies":
                 lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.C3),
+                    can_reach_bilbies(world, state, Ty1LevelCode.C3),
             "RMtS - Race Rex":
                 lambda state:
                     has_stopwatch(world, state, Ty1LevelCode.C3) if world.options.gate_time_attacks
@@ -286,33 +275,6 @@ def get_rules(world):
             "RMtS - Golden Cog 8":
                 lambda state:
                     can_throw_water(world, state) or has_rang(world, state, Ty1Rang.FROSTYRANG),
-            "Two Up - Bilby Completion":
-                lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.A1),
-            "WitP - Bilby Completion":
-                lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.A2),
-            "Ship Rex - Bilby Completion":
-                lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.A3),
-            "BotRT - Bilby Completion":
-                lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.B1),
-            "Snow Worries - Bilby Completion":
-                lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.B2),
-            "Outback Safari - Bilby Completion":
-                lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.B3),
-            "LLPoF - Bilby Completion":
-                lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.C1),
-            "BtBS - Bilby Completion":
-                lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.C2),
-            "RMtS - Bilby Completion":
-                lambda state:
-                    has_all_bilbies(world, state, Ty1LevelCode.C3),
             "BotRT - Bilby Mum":
                 lambda state:
                     has_rang(world, state, Ty1Rang.FLAMERANG)
@@ -411,27 +373,12 @@ def get_rules(world):
             "Attribute - Megarang":
                 lambda state:
                     state.has("Golden Cog", world.player, world.options.cog_gating * 4),
-            "Attribute - Kaboomarang":
+            "Attribute - Kaboomerang":
                 lambda state:
                     state.has("Golden Cog", world.player, world.options.cog_gating * 5),
             "Attribute - Chronorang":
                 lambda state:
                     state.has("Golden Cog", world.player, world.options.cog_gating * 6),
-            "BotRT - All Golden Cogs":
-                lambda state:
-                    can_reach_cogs(world, state, Ty1LevelCode.B1),
-            "Snow Worries - All Golden Cogs":
-                lambda state:
-                    can_reach_cogs(world, state, Ty1LevelCode.B2),
-            "LLPoF - All Golden Cogs":
-                lambda state:
-                    can_reach_cogs(world, state, Ty1LevelCode.C1),
-            "BtBS - All Golden Cogs":
-                lambda state:
-                    can_reach_cogs(world, state, Ty1LevelCode.C2),
-            "RMtS - All Golden Cogs":
-                lambda state:
-                    can_reach_cogs(world, state, Ty1LevelCode.C3),
             "Snow Worries - All Picture Frames":
                 lambda state:
                     state.can_reach_location("Snow Worries - Bilby Mum", world.player),
@@ -710,9 +657,6 @@ def get_rules(world):
                 lambda state:
                     not world.options.frames_require_infra or state.has("Infrarang", world.player)
                     or world.options.logic_difficulty == 2,
-            "Beyond the Black Stump - Behind Burning Logs":
-                lambda state:
-                    world.options.logic_difficulty != 0 or has_rang(world, state, Ty1Rang.FROSTYRANG),
             "Beyond the Black Stump - PF":
                 lambda state:
                     not world.options.frames_require_infra or state.has("Infrarang", world.player)
@@ -748,12 +692,14 @@ def set_rules(world):
         try:
             world.get_entrance(entrance_name).access_rule = rule
         except KeyError:
+            print(f"Key error: {entrance_name}")
             pass
 
     for location_name, rule in rules_lookup["locations"].items():
         try:
             world.get_location(location_name).access_rule = rule
         except KeyError:
+            print(f"Key error: {location_name}")
             pass
 
     world.multiworld.completion_condition[world.player] = lambda state: state.has("Beat Cass", world.player)

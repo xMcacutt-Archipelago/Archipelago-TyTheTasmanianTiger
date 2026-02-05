@@ -1,4 +1,4 @@
-from BaseClasses import Location, Region
+from BaseClasses import Location, Region, LocationProgressType
 from .data import *
 from worlds.ty_the_tasmanian_tiger.options import Ty1Options
 
@@ -8,7 +8,7 @@ class Ty1Location(Location):
 
 
 class LocData:
-    def __init__(self, code: int, region: str, level: Ty1LevelCode):
+    def __init__(self, code: int, region: str, level: Ty1LevelCode, progress_type: LocationProgressType = None):
         """
         Represents a location with associated conditions.
 
@@ -18,10 +18,13 @@ class LocData:
         self.code = code
         self.region = region
         self.level = level
+        self.progress_type = progress_type
 
 
-def create_location(player: int, reg: Region, name: str, code: int):
+def create_location(player: int, reg: Region, name: str, code: int, progress_type: LocationProgressType = None):
     location = Ty1Location(player, name, code, reg)
+    if progress_type is not None:
+        location.progress_type = progress_type
     reg.locations.append(location)
 
 
@@ -29,7 +32,7 @@ def create_locations_from_dict(loc_dict, reg, player):
     for (key, data) in loc_dict.items():
         if data.region != reg.name:
             continue
-        create_location(player, reg, key, data.code)
+        create_location(player, reg, key, data.code, data.progress_type)
 
 
 def create_locations(player: int, options: Ty1Options, reg: Region):
@@ -37,12 +40,8 @@ def create_locations(player: int, options: Ty1Options, reg: Region):
     create_locations_from_dict(thunder_eggs_dict, reg, player)
     # GOLDEN COGS
     create_locations_from_dict(golden_cogs_dict, reg, player)
-    # COG COMPLETION
-    create_locations_from_dict(cog_completion_dict, reg, player)
     # BILBIES
     create_locations_from_dict(bilbies_dict, reg, player)
-    # BILBY COMPLETION
-    create_locations_from_dict(bilby_completion_dict, reg, player)
     # TALISMANS
     create_locations_from_dict(talismans_dict, reg, player)
     # PICTURE FRAMES
@@ -992,38 +991,17 @@ attributes_dict = {
     "Attribute - Aquarang":
         LocData(0x0875031D, "Ship Rex", level=Ty1LevelCode.A3),
     "Attribute - Zoomerang":
-        LocData(0x0875031A, "Rainbow Cliffs", level=Ty1LevelCode.Z1),
+        LocData(0x0875031A, "Rainbow Cliffs", level=Ty1LevelCode.Z1, progress_type=LocationProgressType.EXCLUDED),
     "Attribute - Multirang":
-        LocData(0x0875031E, "Rainbow Cliffs", level=Ty1LevelCode.Z1),
+        LocData(0x0875031E, "Rainbow Cliffs", level=Ty1LevelCode.Z1, progress_type=LocationProgressType.EXCLUDED),
     "Attribute - Infrarang":
-        LocData(0x0875031B, "Rainbow Cliffs", level=Ty1LevelCode.Z1),
+        LocData(0x0875031B, "Rainbow Cliffs", level=Ty1LevelCode.Z1, progress_type=LocationProgressType.EXCLUDED),
     "Attribute - Megarang":
-        LocData(0x08750319, "Rainbow Cliffs", level=Ty1LevelCode.Z1),
-    "Attribute - Kaboomarang":
-        LocData(0x08750317, "Rainbow Cliffs", level=Ty1LevelCode.Z1),
+        LocData(0x08750319, "Rainbow Cliffs", level=Ty1LevelCode.Z1, progress_type=LocationProgressType.EXCLUDED),
+    "Attribute - Kaboomerang":
+        LocData(0x08750317, "Rainbow Cliffs", level=Ty1LevelCode.Z1, progress_type=LocationProgressType.EXCLUDED),
     "Attribute - Chronorang":
-        LocData(0x0875031F, "Rainbow Cliffs", level=Ty1LevelCode.Z1),
-}
-
-cog_completion_dict = {
-    "Two Up - All Golden Cogs":
-        LocData(0x087501A2, "Two Up - Upper Area", level=Ty1LevelCode.A1),
-    "WitP - All Golden Cogs":
-        LocData(0x087501A3, "Walk in the Park", level=Ty1LevelCode.A2),
-    "Ship Rex - All Golden Cogs":
-        LocData(0x087501A4, "Ship Rex - Beyond Gate", level=Ty1LevelCode.A3),
-    "BotRT - All Golden Cogs":
-        LocData(0x087501A5, "Bridge on the River Ty - Beyond Broken Bridge", level=Ty1LevelCode.B1),
-    "Snow Worries - All Golden Cogs":
-        LocData(0x087501A6, "Snow Worries - Underwater", level=Ty1LevelCode.B2),
-    "Outback Safari - All Golden Cogs":
-        LocData(0x087501A7, "Outback Safari", level=Ty1LevelCode.B3),
-    "LLPoF - All Golden Cogs":
-        LocData(0x087501A8, "Lyre, Lyre Pants on Fire", level=Ty1LevelCode.C1),
-    "BtBS - All Golden Cogs":
-        LocData(0x087501A9, "Beyond the Black Stump - Upper Area", level=Ty1LevelCode.C2),
-    "RMtS - All Golden Cogs":
-        LocData(0x087501AA, "Rex Marks the Spot - Underwater", level=Ty1LevelCode.C3),
+        LocData(0x0875031F, "Rainbow Cliffs", level=Ty1LevelCode.Z1, progress_type=LocationProgressType.EXCLUDED),
 }
 
 frame_completion_dict = {
@@ -1045,27 +1023,6 @@ frame_completion_dict = {
         LocData(0x0875025F, "Beyond the Black Stump - Upper Area - PF", level=Ty1LevelCode.C2),
     "RMtS - All Picture Frames":
         LocData(0x08750260, "Rex Marks the Spot - PF", level=Ty1LevelCode.C3),
-}
-
-bilby_completion_dict = {
-    "Two Up - Bilby Completion":
-        LocData(0x08750270, "Rainbow Cliffs", level=Ty1LevelCode.A1),
-    "WitP - Bilby Completion":
-        LocData(0x08750271, "Rainbow Cliffs", level=Ty1LevelCode.A2),
-    "Ship Rex - Bilby Completion":
-        LocData(0x08750272, "Rainbow Cliffs", level=Ty1LevelCode.A3),
-    "BotRT - Bilby Completion":
-        LocData(0x08750273, "Rainbow Cliffs", level=Ty1LevelCode.B1),
-    "Snow Worries - Bilby Completion":
-        LocData(0x08750274, "Rainbow Cliffs", level=Ty1LevelCode.B2),
-    "Outback Safari - Bilby Completion":
-        LocData(0x08750275, "Rainbow Cliffs", level=Ty1LevelCode.B3),
-    "LLPoF - Bilby Completion":
-        LocData(0x08750276, "Rainbow Cliffs", level=Ty1LevelCode.C1),
-    "BtBS - Bilby Completion":
-        LocData(0x08750277, "Rainbow Cliffs", level=Ty1LevelCode.C2),
-    "RMtS - Bilby Completion":
-        LocData(0x08750278, "Rainbow Cliffs", level=Ty1LevelCode.C3),
 }
 
 talismans_dict = {
@@ -4055,9 +4012,7 @@ ty1_location_table = {
     **bilbies_dict,
     **picture_frames_dict,
     **attributes_dict,
-    **cog_completion_dict,
     **frame_completion_dict,
-    **bilby_completion_dict,
     **talismans_dict,
     **elemental_rangs_dict,
     **scales_dict,

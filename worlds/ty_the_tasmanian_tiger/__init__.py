@@ -2,6 +2,7 @@ import dataclasses
 from typing import List, Dict, Optional, Any
 from BaseClasses import Item, MultiWorld, Tutorial, ItemClassification, Region, Location
 from Options import OptionError, PerGameCommonOptions
+from Utils import visualize_regions
 from worlds.AutoWorld import WebWorld, World
 
 from .items import *
@@ -85,44 +86,16 @@ class Ty1World(World):
         }
 
     def generate_early(self) -> None:
-        # UT Stuff Here
         self.handle_ut_yamless(None)
-        extra_thegg_count = self.options.extra_theggs * 3
-        extra_cog_count = self.options.extra_cogs
-        empty_cog_checks = 90 - (self.options.cog_gating * 6)
-        empty_thegg_checks = 72 - (self.options.thegg_gating * 3)
-        frame_count = 127 if self.options.framesanity == 0 else 9 if self.options.framesanity == 1 else 0
-        scale_count = 25 if self.options.scalesanity else 0
-        portal_items = 0 if self.options.level_unlock_style == 0 else 12 if self.options.level_unlock_style == 1 else 9
-        excess_checks = 18 - portal_items
-        excess_checks += frame_count + scale_count + empty_cog_checks + empty_thegg_checks
-        total_unbalanced = extra_thegg_count + extra_cog_count
-        if extra_thegg_count + extra_cog_count > excess_checks:
-            print("[WARN] Ty1 - Thegg and Cog count in item pool is larger than remaining checks.")
-            overflow = total_unbalanced - excess_checks
-            cog_contribution_ratio = extra_cog_count / total_unbalanced
-            thegg_contribution_ratio = extra_thegg_count / total_unbalanced
+        extra_thegg_count = self.options.extra_theggs.value * 3
+        extra_cog_count = self.options.extra_cogs.value
 
-            reduce_cogs = int(round(overflow * cog_contribution_ratio, 0))
-            reduce_theggs = int(round(overflow * thegg_contribution_ratio, 0))
+        if extra_thegg_count + self.options.thegg_gating.value * 3 > 72:
+            raise OptionError("[Ty the Tasmanian Tiger] More than 72 theggs added to the pool.")
 
-            reduce_cogs = min(self.options.extra_cogs.value, reduce_cogs)
-            reduce_theggs = min(self.options.extra_theggs.value, int(reduce_theggs / 3))
-            rounding_error = overflow - (reduce_cogs + (reduce_theggs * 3))
-            if 0 < rounding_error < 3 and self.options.extra_cogs - reduce_cogs > 0:
-                reduce_cogs += rounding_error
+        if extra_cog_count + self.options.cog_gating.value * 6 > 90:
+            raise OptionError("[Ty the Tasmanian Tiger] More than 90 cogs added to the pool.")
 
-            self.options.extra_cogs.value = extra_cog_count - int(reduce_cogs)
-            self.options.extra_theggs.value = int(extra_thegg_count / 3) - int(reduce_theggs)
-
-            thegg_count = self.options.extra_theggs * 3
-            cog_count = self.options.extra_cogs
-
-            if thegg_count + cog_count > excess_checks:
-                print("[ERROR] Ty1 - Could not automatically reduce counts. Something is very wrong.")
-                raise OptionError()
-            else:
-                print("[INFO] Ty1 - Extra Theggs and Cogs have been reduced to avoid unplaced items.")
         self.trap_weights = {
             "Knocked Down Trap": self.options.knocked_down_trap_weight.value,
             "Slow Trap": self.options.slow_trap_weight.value,
@@ -148,7 +121,6 @@ class Ty1World(World):
 
     def create_regions(self):
         create_regions(self)
-        place_locked_items(self)
         self.create_event("Bull's Pen", "Beat Bull")
         self.create_event("Crikey's Cove", "Beat Crikey")
         self.create_event("Fluffy's Fjord", "Beat Fluffy")
@@ -228,3 +200,10 @@ class Ty1World(World):
         self.options.extra_cogs.value = slot_data["ExtraCog"]
 
         return slot_data
+
+    # def pre_fill(self) -> None:
+    #     visualize_regions(self.multiworld.get_region("Menu", self.player), f"Player{self.player_name}.puml",
+    #                       show_entrance_names=True,
+    #                       regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
+    #                           self.player])
+

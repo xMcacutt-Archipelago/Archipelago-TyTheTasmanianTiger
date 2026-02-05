@@ -11,7 +11,7 @@ if %RUN_TEMPLATE%==1 (
     py launcher.py "Generate Template Options"
 )
 
-copy ".\Players\Templates\Ty_the_Tasmanian_Tiger.yaml" ".\Players\"
+copy ".\Players\Templates\Ty the Tasmanian Tiger.yaml" ".\Players\"
 
 if exist ".\output\" (
     del /q ".\output\*"

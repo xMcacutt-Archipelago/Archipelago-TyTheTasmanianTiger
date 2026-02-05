@@ -44,32 +44,21 @@ def create_items(world):
 
     # Generic
     create_multiple("Fire Thunder Egg",
-                    options.thegg_gating.value - 3, world, ItemClassification.progression_skip_balancing)
+                    options.thegg_gating.value, world, ItemClassification.progression_skip_balancing)
     create_multiple("Fire Thunder Egg",
                     options.extra_theggs.value, world, ItemClassification.filler)
     create_multiple("Ice Thunder Egg",
-                    options.thegg_gating.value - 3, world, ItemClassification.progression_skip_balancing)
+                    options.thegg_gating.value, world, ItemClassification.progression_skip_balancing)
     create_multiple("Ice Thunder Egg",
                     options.extra_theggs.value, world, ItemClassification.filler)
     create_multiple("Air Thunder Egg",
-                    options.thegg_gating.value - 3, world, ItemClassification.progression_skip_balancing)
+                    options.thegg_gating.value, world, ItemClassification.progression_skip_balancing)
     create_multiple("Air Thunder Egg",
                     options.extra_theggs.value, world, ItemClassification.filler)
     create_multiple("Golden Cog",
                     options.cog_gating.value * 6, world, ItemClassification.progression_skip_balancing)
     create_multiple("Golden Cog",
                     options.extra_cogs.value, world, ItemClassification.filler)
-
-    # Bilbies
-    create_multiple("Bilby - Two Up", 5, world)
-    create_multiple("Bilby - Walk in the Park", 5, world)
-    create_multiple("Bilby - Ship Rex", 5, world)
-    create_multiple("Bilby - Bridge on the River Ty", 5, world)
-    create_multiple("Bilby - Snow Worries", 5, world)
-    create_multiple("Bilby - Outback Safari", 5, world)
-    create_multiple("Bilby - Lyre, Lyre Pants on Fire", 5, world)
-    create_multiple("Bilby - Beyond the Black Stump", 5, world)
-    create_multiple("Bilby - Rex Marks the Spot", 5, world)
 
     # Stopwatches
     if options.gate_time_attacks:
@@ -102,7 +91,7 @@ def create_items(world):
     create_single("Multirang", world)
     create_single("Infrarang", world, ItemClassification.progression if options.frames_require_infra else ItemClassification.useful)
     create_single("Megarang", world)
-    create_single("Kaboomarang", world)
+    create_single("Kaboomerang", world)
     create_single("Chronorang", world)
 
     create_single("Frog Talisman", world)
@@ -145,38 +134,6 @@ def create_items(world):
     world.multiworld.itempool += world.itempool
 
 
-def place_locked_items(world):
-    player = world.player
-    classification = ItemClassification.progression_skip_balancing
-    a1_bilby_loc: Location = world.multiworld.get_location("Two Up - Bilby Completion", player)
-    a1_bilby_thegg: Ty1Item = Ty1Item("Fire Thunder Egg", classification, 0x8750000, player)
-    a1_bilby_loc.place_locked_item(a1_bilby_thegg)
-    a2_bilby_loc: Location = world.multiworld.get_location("WitP - Bilby Completion", player)
-    a2_bilby_thegg: Ty1Item = Ty1Item("Fire Thunder Egg", classification, 0x8750000, player)
-    a2_bilby_loc.place_locked_item(a2_bilby_thegg)
-    a3_bilby_loc: Location = world.multiworld.get_location("Ship Rex - Bilby Completion", player)
-    a3_bilby_thegg: Ty1Item = Ty1Item("Fire Thunder Egg", classification, 0x8750000, player)
-    a3_bilby_loc.place_locked_item(a3_bilby_thegg)
-    b1_bilby_loc: Location = world.multiworld.get_location("BotRT - Bilby Completion", player)
-    b1_bilby_thegg: Ty1Item = Ty1Item("Ice Thunder Egg", classification, 0x8750001, player)
-    b1_bilby_loc.place_locked_item(b1_bilby_thegg)
-    b2_bilby_loc: Location = world.multiworld.get_location("Snow Worries - Bilby Completion", player)
-    b2_bilby_thegg: Ty1Item = Ty1Item("Ice Thunder Egg", classification, 0x8750001, player)
-    b2_bilby_loc.place_locked_item(b2_bilby_thegg)
-    b3_bilby_loc: Location = world.multiworld.get_location("Outback Safari - Bilby Completion", player)
-    b3_bilby_thegg: Ty1Item = Ty1Item("Ice Thunder Egg", classification, 0x8750001, player)
-    b3_bilby_loc.place_locked_item(b3_bilby_thegg)
-    c1_bilby_loc: Location = world.multiworld.get_location("LLPoF - Bilby Completion", player)
-    c1_bilby_thegg: Ty1Item = Ty1Item("Air Thunder Egg", classification, 0x8750002, player)
-    c1_bilby_loc.place_locked_item(c1_bilby_thegg)
-    c2_bilby_loc: Location = world.multiworld.get_location("BtBS - Bilby Completion", player)
-    c2_bilby_thegg: Ty1Item = Ty1Item("Air Thunder Egg", classification, 0x8750002, player)
-    c2_bilby_loc.place_locked_item(c2_bilby_thegg)
-    c3_bilby_loc: Location = world.multiworld.get_location("RMtS - Bilby Completion", player)
-    c3_bilby_thegg: Ty1Item = Ty1Item("Air Thunder Egg", classification, 0x8750002, player)
-    c3_bilby_loc.place_locked_item(c3_bilby_thegg)
-
-
 class ItemData:
     def __init__(self, code: Optional[int], classification: Optional[ItemClassification]):
         self.code = code
@@ -188,7 +145,7 @@ ty1_item_table: Dict[str, ItemData] = {
     "Fire Thunder Egg": ItemData(0x8750000, ItemClassification.progression),
     "Ice Thunder Egg": ItemData(0x8750001, ItemClassification.progression),
     "Air Thunder Egg": ItemData(0x8750002, ItemClassification.progression),
-    "Golden Cog":  ItemData(0x8750003, ItemClassification.progression_skip_balancing),
+    "Golden Cog":  ItemData(0x8750003, ItemClassification.progression),
 
     # Attributes
     "Progressive Rang": ItemData(0x8750070, ItemClassification.progression),
@@ -205,20 +162,9 @@ ty1_item_table: Dict[str, ItemData] = {
     "Multirang": ItemData(0x875001A, ItemClassification.filler),
     "Infrarang": ItemData(0x875001B, ItemClassification.useful),
     "Megarang": ItemData(0x875001C, ItemClassification.filler),
-    "Kaboomarang": ItemData(0x875001D, ItemClassification.filler),
-    "Chronorang": ItemData(0x875001E, ItemClassification.filler),
+    "Kaboomerang": ItemData(0x875001D, ItemClassification.progression),
+    "Chronorang": ItemData(0x875001E, ItemClassification.useful),
     "Doomerang": ItemData(0x875001F, ItemClassification.progression),
-
-    # Bilby
-    "Bilby - Two Up": ItemData(0x8750024, ItemClassification.progression_skip_balancing),
-    "Bilby - Walk in the Park": ItemData(0x8750025, ItemClassification.progression_skip_balancing),
-    "Bilby - Ship Rex": ItemData(0x8750026, ItemClassification.progression_skip_balancing),
-    "Bilby - Bridge on the River Ty": ItemData(0x8750028, ItemClassification.progression_skip_balancing),
-    "Bilby - Snow Worries": ItemData(0x8750029, ItemClassification.progression_skip_balancing),
-    "Bilby - Outback Safari": ItemData(0x875002A, ItemClassification.progression_skip_balancing),
-    "Bilby - Lyre, Lyre Pants on Fire": ItemData(0x875002C, ItemClassification.progression_skip_balancing),
-    "Bilby - Beyond the Black Stump": ItemData(0x875002D, ItemClassification.progression_skip_balancing),
-    "Bilby - Rex Marks the Spot": ItemData(0x875002E, ItemClassification.progression_skip_balancing),
 
     # Levels
     "Progressive Level": ItemData(0x8750071, ItemClassification.progression),
@@ -297,7 +243,7 @@ ty1_item_name_groups = {
         "Multirang",
         "Infrarang",
         "Megarang",
-        "Kaboomarang",
+        "Kaboomerang",
         "Chronorang",
         "Doomerang",
         "Swim",

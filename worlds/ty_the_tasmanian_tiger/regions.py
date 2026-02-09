@@ -6,9 +6,6 @@ from worlds.ty_the_tasmanian_tiger.locations import create_locations
 from typing import List, Dict
 from .data import *
 
-class Ty1Region(Region):
-    subregions: List[Region] = []
-
 
 def connect_regions(world, from_name: str, to_name: str, entrance_name: str) -> Entrance:
     entrance_region = world.get_region(from_name)

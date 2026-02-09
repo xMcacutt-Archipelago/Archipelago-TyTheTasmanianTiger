@@ -60,6 +60,16 @@ def create_items(world):
     create_multiple("Golden Cog",
                     options.extra_cogs.value, world, ItemClassification.filler)
 
+    create_single("Bilbies - Two Up", world)
+    create_single("Bilbies - Walk in the Park", world)
+    create_single("Bilbies - Ship Rex", world)
+    create_single("Bilbies - Bridge on the River Ty", world)
+    create_single("Bilbies - Snow Worries", world)
+    create_single("Bilbies - Outback Safari", world)
+    create_single("Bilbies - Lyre, Lyre Pants on Fire", world)
+    create_single("Bilbies - Beyond the Black Stump", world)
+    create_single("Bilbies - Rex Marks the Spot", world)
+
     # Stopwatches
     if options.gate_time_attacks:
         create_single("Stopwatch - Two Up", world)
@@ -165,6 +175,16 @@ ty1_item_table: Dict[str, ItemData] = {
     "Kaboomerang": ItemData(0x875001D, ItemClassification.progression),
     "Chronorang": ItemData(0x875001E, ItemClassification.useful),
     "Doomerang": ItemData(0x875001F, ItemClassification.progression),
+
+    "Bilbies - Two Up": ItemData(0x8750024, ItemClassification.progression),
+    "Bilbies - Walk in the Park": ItemData(0x8750025, ItemClassification.progression),
+    "Bilbies - Ship Rex": ItemData(0x8750026, ItemClassification.progression),
+    "Bilbies - Bridge on the River Ty": ItemData(0x8750028, ItemClassification.progression),
+    "Bilbies - Snow Worries": ItemData(0x8750029, ItemClassification.progression),
+    "Bilbies - Outback Safari": ItemData(0x875002A, ItemClassification.progression),
+    "Bilbies - Lyre, Lyre Pants on Fire": ItemData(0x875002C, ItemClassification.progression),
+    "Bilbies - Beyond the Black Stump": ItemData(0x875002D, ItemClassification.progression),
+    "Bilbies - Rex Marks the Spot": ItemData(0x875002E, ItemClassification.progression),
 
     # Levels
     "Progressive Level": ItemData(0x8750071, ItemClassification.progression),

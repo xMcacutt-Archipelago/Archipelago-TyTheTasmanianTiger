@@ -110,13 +110,13 @@ class CogGating(Range):
 
 class ExtraCogs(Range):
     """
-    Sets number of additional golden cogs to add to the pool
+    Sets number of additional golden cogs to add to the pool per attribute check
     WARNING - Setting this value high without sanity is likely to lead to generation failures
     """
     display_name = "Extra Cogs"
     range_start = 0
-    range_end = 90
-    default = 30
+    range_end = 15
+    default = 5
 
 
 class GateTimeAttacks(Toggle):

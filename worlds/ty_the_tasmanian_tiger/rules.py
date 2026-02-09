@@ -118,6 +118,9 @@ def has_theggs(world, state: CollectionState, thegg_type: TheggType, amount: int
 def get_rules(world):
     rules = {
         "locations": {
+            "Two Up - Find 5 Bilbies":
+                lambda state:
+                can_reach_bilbies(world, state, Ty1LevelCode.A1),
             "Two Up - Collect 300 Opals":
                 lambda state:
                     state.can_reach_region("Two Up - Upper Area", world.player)
@@ -126,6 +129,9 @@ def get_rules(world):
                 lambda state:
                     has_stopwatch(world, state, Ty1LevelCode.A1) if world.options.gate_time_attacks
                     else state.can_reach_location("Two Up - Glide The Gap", world.player),
+            "WitP - Find 5 Bilbies":
+                lambda state:
+                can_reach_bilbies(world, state, Ty1LevelCode.A2),
             "WitP - Wombat Race":
                 lambda state:
                     has_stopwatch(world, state, Ty1LevelCode.A2) if world.options.gate_time_attacks
@@ -137,6 +143,9 @@ def get_rules(world):
             "Ship Rex - Ship Wreck":
                 lambda state:
                     can_throw_water(world, state),
+            "Ship Rex - Find 5 Bilbies":
+                lambda state:
+                    can_reach_bilbies(world, state, Ty1LevelCode.A3),
             "BotRT - Collect 300 Opals":
                 lambda state:
                     can_go_water(world, state),
@@ -199,8 +208,7 @@ def get_rules(world):
                     has_rang(world, state, Ty1Rang.SECOND_RANG),
             "BtBS - Find 5 Bilbies":
                 lambda state:
-                    has_rang(world, state, Ty1Rang.FLAMERANG)
-                    or world.options.logic_difficulty != 0,
+                    can_reach_bilbies(world, state, Ty1LevelCode.C2),
             "BtBS - Wombat Rematch":
                 lambda state:
                     has_stopwatch(world, state, Ty1LevelCode.C2) if world.options.gate_time_attacks
@@ -275,24 +283,106 @@ def get_rules(world):
             "RMtS - Golden Cog 8":
                 lambda state:
                     can_throw_water(world, state) or has_rang(world, state, Ty1Rang.FROSTYRANG),
+            "Two Up - Bilby Dad":
+                lambda state: state.has("Bilbies - Two Up", world.player),
+            "Two Up - Bilby Mum":
+                lambda state: state.has("Bilbies - Two Up", world.player),
+            "Two Up - Bilby Girl":
+                lambda state: state.has("Bilbies - Two Up", world.player),
+            "Two Up - Bilby Boy":
+                lambda state: state.has("Bilbies - Two Up", world.player),
+            "Two Up - Bilby Grandma":
+                lambda state: state.has("Bilbies - Two Up", world.player),
+            "WitP - Bilby Dad":
+                lambda state: state.has("Bilbies - Walk in the Park", world.player),
+            "WitP - Bilby Mum":
+                lambda state: state.has("Bilbies - Walk in the Park", world.player),
+            "WitP - Bilby Girl":
+                lambda state: state.has("Bilbies - Walk in the Park", world.player),
+            "WitP - Bilby Boy":
+                lambda state: state.has("Bilbies - Walk in the Park", world.player),
+            "WitP - Bilby Grandma":
+                lambda state: state.has("Bilbies - Walk in the Park", world.player),
+            "Ship Rex - Bilby Dad":
+                lambda state: state.has("Bilbies - Ship Rex", world.player),
+            "Ship Rex - Bilby Mum":
+                lambda state: state.has("Bilbies - Ship Rex", world.player),
+            "Ship Rex - Bilby Girl":
+                lambda state: state.has("Bilbies - Ship Rex", world.player),
+            "Ship Rex - Bilby Boy":
+                lambda state: state.has("Bilbies - Ship Rex", world.player),
+            "Ship Rex - Bilby Grandma":
+                lambda state: state.has("Bilbies - Ship Rex", world.player),
+            "BotRT - Bilby Dad":
+                lambda state: state.has("Bilbies - Bridge on the River Ty", world.player),
             "BotRT - Bilby Mum":
-                lambda state:
-                    has_rang(world, state, Ty1Rang.FLAMERANG)
-                    or (world.options.logic_difficulty != 0
-                        and has_rang(world, state, Ty1Rang.SECOND_RANG)
-                        and can_go_water(world, state)),
+                lambda state: state.has("Bilbies - Bridge on the River Ty", world.player)
+                              and has_rang(world, state, Ty1Rang.FLAMERANG),
+            "BotRT - Bilby Girl":
+                lambda state: state.has("Bilbies - Bridge on the River Ty", world.player),
+            "BotRT - Bilby Boy":
+                lambda state: state.has("Bilbies - Bridge on the River Ty", world.player),
+            "BotRT - Bilby Grandma":
+                lambda state: state.has("Bilbies - Bridge on the River Ty", world.player),
+            "Snow Worries - Bilby Dad":
+                lambda state: state.has("Bilbies - Snow Worries", world.player),
             "Snow Worries - Bilby Mum":
-                lambda state:
+                lambda state: state.has("Bilbies - Snow Worries", world.player) and (
                     (has_rang(world, state, Ty1Rang.FLAMERANG) or state.has("Kaboomerang", world.player))
                     or world.options.logic_difficulty != 0,
+                ),
+            "Snow Worries - Bilby Girl":
+                lambda state: state.has("Bilbies - Snow Worries", world.player),
+            "Snow Worries - Bilby Boy":
+                lambda state: state.has("Bilbies - Snow Worries", world.player),
+            "Snow Worries - Bilby Grandma":
+                lambda state: state.has("Bilbies - Snow Worries", world.player),
+            "Outback Safari - Bilby Dad":
+                lambda state: state.has("Bilbies - Outback Safari", world.player),
+            "Outback Safari - Bilby Mum":
+                lambda state: state.has("Bilbies - Outback Safari", world.player),
+            "Outback Safari - Bilby Girl":
+                lambda state: state.has("Bilbies - Outback Safari", world.player),
+            "Outback Safari - Bilby Boy":
+                lambda state: state.has("Bilbies - Outback Safari", world.player),
+            "Outback Safari - Bilby Grandma":
+                lambda state: state.has("Bilbies - Outback Safari", world.player),
+            "LLPoF - Bilby Dad":
+                lambda state: state.has("Bilbies - Lyre, Lyre Pants on Fire", world.player),
+            "LLPoF - Bilby Mum":
+                lambda state: state.has("Bilbies - Lyre, Lyre Pants on Fire", world.player),
+            "LLPoF - Bilby Girl":
+                lambda state: state.has("Bilbies - Lyre, Lyre Pants on Fire", world.player),
+            "LLPoF - Bilby Boy":
+                lambda state: state.has("Bilbies - Lyre, Lyre Pants on Fire", world.player),
+            "LLPoF - Bilby Grandma":
+                lambda state: state.has("Bilbies - Lyre, Lyre Pants on Fire", world.player),
             "BtBS - Bilby Dad":
-                lambda state:
+                lambda state: state.has("Bilbies - Beyond the Black Stump", world.player) and (
                     has_rang(world, state, Ty1Rang.FLAMERANG)
                     or world.options.logic_difficulty != 0,
+                ),
             "BtBS - Bilby Mum":
-                lambda state:
+                lambda state: state.has("Bilbies - Beyond the Black Stump", world.player) and (
                     has_rang(world, state, Ty1Rang.FLAMERANG)
                     or world.options.logic_difficulty != 0,
+                ),
+            "BtBS - Bilby Girl":
+                lambda state: state.has("Bilbies - Beyond the Black Stump", world.player),
+            "BtBS - Bilby Boy":
+                lambda state: state.has("Bilbies - Beyond the Black Stump", world.player),
+            "BtBS - Bilby Grandma":
+                lambda state: state.has("Bilbies - Beyond the Black Stump", world.player),
+            "RMtS - Bilby Dad":
+                lambda state: state.has("Bilbies - Rex Marks the Spot", world.player),
+            "RMtS - Bilby Mum":
+                lambda state: state.has("Bilbies - Rex Marks the Spot", world.player),
+            "RMtS - Bilby Girl":
+                lambda state: state.has("Bilbies - Rex Marks the Spot", world.player),
+            "RMtS - Bilby Boy":
+                lambda state: state.has("Bilbies - Rex Marks the Spot", world.player),
+            "RMtS - Bilby Grandma":
+                lambda state: state.has("Bilbies - Rex Marks the Spot", world.player),
             "Snow Worries - PF 13":
                 lambda state:
                     (has_rang(world, state, Ty1Rang.FLAMERANG) or state.has("Kaboomerang", world.player))

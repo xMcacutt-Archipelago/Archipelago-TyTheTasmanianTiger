@@ -72,8 +72,6 @@ def create_regions(world):
 def connect_all_regions(world, portal_map: List[int]):
     if world.options.level_shuffle and not hasattr(world, "re_gen_passthrough"):
         world.random.shuffle(portal_map)
-    for i in portal_map:
-        print(i)
     connect_regions(world, "Menu",
                     "Rainbow Cliffs", "Menu -> Z1")
     connect_regions(world, "Rainbow Cliffs",

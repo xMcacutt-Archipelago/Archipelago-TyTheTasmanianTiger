@@ -782,14 +782,14 @@ def set_rules(world):
         try:
             world.get_entrance(entrance_name).access_rule = rule
         except KeyError:
-            print(f"Key error: {entrance_name}")
+            #print(f"Key error: {entrance_name}")
             pass
 
     for location_name, rule in rules_lookup["locations"].items():
         try:
             world.get_location(location_name).access_rule = rule
         except KeyError:
-            print(f"Key error: {location_name}")
+            #print(f"Key error: {location_name}")
             pass
 
     world.multiworld.completion_condition[world.player] = lambda state: state.has("Beat Cass", world.player)

@@ -53,8 +53,6 @@ def create_locations(player: int, options: Ty1Options, reg: Region):
     # SCALES
     if options.scalesanity:
         create_locations_from_dict(scales_dict, reg, player)
-        if reg.name == "Rainbow Cliffs":
-            create_location(player, reg, "Attribute - Extra Health", 0x08750313)
     # OPALS
     if options.opalsanity:
         create_locations_from_dict(opals_dict, reg, player)
@@ -1123,6 +1121,8 @@ scales_dict = {
     # Under Thunder Egg collector in A-zone
     "Rainbow Scale 25":
         LocData(0x8750368, "Rainbow Cliffs", level=Ty1LevelCode.Z1),
+    "Attribute - Extra Health":
+        LocData(0x8750313, "Rainbow Cliffs", level=Ty1LevelCode.Z1),
 }
 
 opals_dict = {
@@ -4000,12 +4000,6 @@ extra_lives_dict = {
         LocData(0x08750435, "Cass' Crest", level=Ty1LevelCode.D2),
 }
 
-conditional_items_dict = {
-    "Attribute - Extra Health":
-        LocData(0x08750313, "Rainbow Cliffs", level=Ty1LevelCode.Z1),
-}
-
-
 ty1_location_table = {
     **thunder_eggs_dict,
     **golden_cogs_dict,
@@ -4020,7 +4014,6 @@ ty1_location_table = {
     **extra_lives_dict,
     **time_attack_challenge_dict,
     **opals_dict,
-    **conditional_items_dict
 }
 
 

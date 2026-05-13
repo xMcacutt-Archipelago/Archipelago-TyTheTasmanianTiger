@@ -60,7 +60,7 @@ class Ty1World(World):
                            Ty1LevelCode.B1.value, Ty1LevelCode.B2.value, Ty1LevelCode.B3.value,
                            Ty1LevelCode.C1.value, Ty1LevelCode.C2.value, Ty1LevelCode.C3.value]
 
-    def fill_slot_data(self) -> id:
+    def fill_slot_data(self):
         return {
             "ModVersion": "1.4.0",
             "Goal": self.options.goal.value,
@@ -201,9 +201,10 @@ class Ty1World(World):
 
         return slot_data
 
+    def generate_output(self, output_directory: str):
+        pass
     # def pre_fill(self) -> None:
     #     visualize_regions(self.multiworld.get_region("Menu", self.player), f"Player{self.player_name}.puml",
     #                       show_entrance_names=True,
     #                       regions_to_highlight=self.multiworld.get_all_state(self.player).reachable_regions[
     #                           self.player])
-

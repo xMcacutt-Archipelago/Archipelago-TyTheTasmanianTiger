@@ -62,7 +62,7 @@ class Ty1World(World):
 
     def fill_slot_data(self):
         return {
-            "ModVersion": "1.4.0",
+            "ModVersion": "1.5",
             "Goal": self.options.goal.value,
             "ProgressiveElementals": self.options.progressive_elementals.value,
             "ProgressiveLevel": self.options.progressive_level.value,
@@ -83,6 +83,7 @@ class Ty1World(World):
             "MulTyLink": self.options.mul_ty_link.value,
             "ExtraTheggs": self.options.extra_theggs.value,
             "ExtraCog": self.options.extra_cogs.value,
+            "MusicRando": self.options.music_rando.value,
         }
 
     def generate_early(self) -> None:

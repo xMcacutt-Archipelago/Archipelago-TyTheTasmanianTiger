@@ -240,6 +240,12 @@ class MulTyLink(Toggle):
     This is soft limited to 8 players per slot. Use with caution."""
     display_name = "Mul-Ty Link"
 
+class MusicRando(Toggle):
+    """Whether music is randomised based on the seed of the world.
+    The Ty1 Music Rando mod must be installed for this to function.
+    """
+    display_name = "Music Rando"
+
 
 ty1_option_groups = [
     OptionGroup("Goal Options", [
@@ -279,6 +285,9 @@ ty1_option_groups = [
     ]),
     OptionGroup("Mul-Ty Link", [
         MulTyLink
+    ]),
+    OptionGroup("Cosmetic",  [
+        MusicRando
     ])
 ]
 
@@ -317,3 +326,5 @@ class Ty1Options(PerGameCommonOptions):
     slow_trap_weight: SlowTrapWeight
 
     mul_ty_link: MulTyLink
+
+    music_rando: MusicRando
